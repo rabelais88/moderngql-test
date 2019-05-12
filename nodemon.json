@@ -1,4 +1,5 @@
 {
   "watch":"src",
-  "exec": "babel-node ./src/index.js"
+  "exec": "babel-node ./src/index.js",
+  "ext": "js,graphql"
 }

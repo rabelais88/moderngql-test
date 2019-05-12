@@ -1,0 +1,48 @@
+# Type definitions (schema)
+# grades will always have array, even when the result is empty([])
+
+type Query {
+  hello: String!
+  name: String!
+  location: String!
+  bio: String!
+  me: User!
+  greeting(name: String): String!
+  grades: [Int]!
+  add(numbers: [Int!]!): Int!
+  posts: [Post]!
+  users: [User]!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  age: Int
+}
+
+input CreateUserInput {
+  name: String!
+  age: Int!
+  email: String!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  author: Author!
+}
+
+type Author {
+  id: ID
+  name: String!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  deleteUser(id: ID!): Boolean
+}
+
+type Subscription {
+  count: Int!
+}
