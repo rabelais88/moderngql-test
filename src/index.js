@@ -3,11 +3,16 @@ import { GraphQLServer, PubSub } from "graphql-yoga";
 // import { PubSub } from 'graphql-subscriptions';
 // https://github.com/apollographql/graphql-subscriptions
 import mongoose from "mongoose";
-import User from "./models/User";
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
-import Post from './resolvers/Post';
+import PostSample from './resolvers/PostSample';
 import Subscription from './resolvers/Subscription';
+
+import ModelComment from './models/Comment';
+import ModelPost from './models/Post';
+import ModelUser from "./models/User";
+import Post from './resolvers/Post';
+import Comment from './resolvers/Comment';
 
 mongoose.connect("mongodb://localhost:27017/test", {
   useCreateIndex: true,
@@ -20,15 +25,19 @@ const pubsub = new PubSub()
 const resolvers = {
   Query,
   Mutation,
-  Post,
+  PostSample,
   Subscription,
+  Post,
+  Comment,
 };
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
   context: {
-      User,
+      User: ModelUser,
+      Post: ModelPost,
+      Comment: ModelComment,
       pubsub,
   }
 });

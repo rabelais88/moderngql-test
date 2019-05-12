@@ -30,7 +30,7 @@ export default {
     const { numbers } = args;
     return numbers.reduce((ac, cv) => ac + cv, 0);
   },
-  posts(parent, args, ctx, info) {
+  sampleposts(parent, args, ctx, info) {
     return [
       {
         id: "abcee",
@@ -41,5 +41,11 @@ export default {
   },
   users(parent, args, ctx, info) {
     return ctx.User.find();
+  },
+  posts(parent, args, { Post }, info) {
+    return Post.find();
+  },
+  comments(parent, { postId }, { Comment }, info) {
+    return Comment.find({ post: postId });
   }
 }

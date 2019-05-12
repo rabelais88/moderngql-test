@@ -10,24 +10,13 @@ type Query {
   greeting(name: String): String!
   grades: [Int]!
   add(numbers: [Int!]!): Int!
-  posts: [Post]!
+  sampleposts: [PostSample]!
   users: [User]!
+  posts: [Post]!
+  comments(postId: ID!): [Comment]!
 }
 
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  age: Int
-}
-
-input CreateUserInput {
-  name: String!
-  age: Int!
-  email: String!
-}
-
-type Post {
+type PostSample {
   id: ID!
   title: String!
   author: Author!
@@ -38,11 +27,53 @@ type Author {
   name: String!
 }
 
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  age: Int
+}
+
+type Post {
+  id: ID!
+  author: User!
+  title: String!
+  content: String!
+  comments: [Comment]!
+}
+
+type Comment {
+  content: String!
+  author: User!
+  post: Post!
+}
+
+input CreateUserInput {
+  name: String!
+  age: Int!
+  email: String!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+  authorId: ID!
+}
+
+input CreateCommentInput {
+  content: String!
+  postId: ID!
+  authorId: ID!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): User!
+  createPost(input: CreatePostInput!): Post!
+  createComment(input: CreateCommentInput!): Comment!
   deleteUser(id: ID!): Boolean
 }
 
 type Subscription {
   count: Int!
+  comments(postId: ID!): [Comment!]!
 }
