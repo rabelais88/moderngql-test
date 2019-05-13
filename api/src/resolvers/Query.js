@@ -47,5 +47,11 @@ export default {
   },
   comments(parent, { postId }, { Comment }, info) {
     return Comment.find({ post: postId });
-  }
+  },
+  login(parent, args, { jwt, sampleUser, secretKey }, info) {
+    return jwt.sign(sampleUser, secretKey, { expiresIn: 60 }); // 1 minutes
+  },
+  isLoggedIn(parent, args, { user }, info) {
+    return user !== undefined && user !== null;
+  },
 }
