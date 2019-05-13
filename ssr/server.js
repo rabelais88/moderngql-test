@@ -25,6 +25,11 @@ app.prepare().then(() => {
     return app.render(req, res, '/posts', { id: req.params.id })
   })
 
+  server.use((req, res, next) => {
+    req.token = req.cookies.token;
+    next();
+  })
+
   server.get('*', (req, res) => {
     return handle(req, res)
   })

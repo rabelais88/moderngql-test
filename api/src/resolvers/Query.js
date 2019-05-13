@@ -52,7 +52,7 @@ export default {
     return jwt.sign(sampleUser, secretKey, { expiresIn: 60 }); // 1 minutes
   },
   isLoggedIn(parent, args, {user}, info) {
-    console.log(user);
+    console.log('user context in isLoggedIn - ', user);
     return user !== undefined && user !== null;
   },
 }

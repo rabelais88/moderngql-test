@@ -7,7 +7,9 @@ import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import _get from 'lodash/get';
+import cookieParser from 'cookie-parser';
 
+import { allowCors } from './util';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 import PostSample from './resolvers/PostSample';
@@ -73,16 +75,25 @@ const server = new GraphQLServer({
   }}
 });
 
-const authMiddleware = (req, res, next) => passport.authenticate('jwt', { session: false }, (err, user, info) => {
-  if(user) req.user = user;
-  next();
-})(req,res,next);
+const authMiddleware = (req, res, next) => {
+  return passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if(user) req.user = user;
+    next();
+  })(req,res,next)
+  };
+
+server.express.use(allowCors);
+server.express.use(cookieParser());
 server.express.post('*', authMiddleware);
 
 const port = 3500;
 
 const opts = {
-  port
+  port,
+  cors: {
+    credentials: true,
+    origin: "*"
+  }
 };
 
 server.start(opts, () => {

@@ -5,6 +5,7 @@ import { renderToString } from "react-dom/server";
 // import { NextAppContext } from "next/app";
 // import { ApolloClient } from "apollo-boost";
 import { getMarkupFromTree } from "react-apollo-hooks";
+import _get from 'lodash/get';
 
 export default App => {
   return class Apollo extends React.Component {
@@ -19,7 +20,11 @@ export default App => {
 
       // Run all GraphQL queries in the component tree
       // and extract the resulting data
-      const apollo = initApolloClient();
+      let token;
+      if (!process.browser) {
+        token = _get(ctx, 'ctx.req.token');
+      }
+      const apollo = initApolloClient({}, token);
       if (!process.browser) {
         try {
           // Run all GraphQL queries

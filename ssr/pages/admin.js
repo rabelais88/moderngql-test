@@ -10,7 +10,6 @@ const CHECK_LOGIN = gql`
 
 const pageAdmin = () => {
   const isLoggedIn = useQuery(CHECK_LOGIN);
-  
   return (
     <div>
       {!isLoggedIn.loading && (
