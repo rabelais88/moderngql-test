@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
+import _get from 'lodash/get';
 
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
@@ -31,7 +32,7 @@ const sampleUser = {
 }
 
 passport.use(new Strategy(jwtOpts, (jwtPayload, done) => {
-  console.log(jwtPayload)
+  // console.log('payload', jwtPayload)
   // error => done(err, false)
   // success => done(null, user)
   // user not found => done(null, false)
@@ -59,25 +60,24 @@ const resolvers = {
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
-  context: {
-      User: ModelUser,
-      Post: ModelPost,
-      Comment: ModelComment,
-      pubsub,
-      jwt,
-      sampleUser,
-      secretKey
-  }
+  context: req => {
+    return {
+    User: ModelUser,
+    Post: ModelPost,
+    Comment: ModelComment,
+    pubsub,
+    jwt,
+    sampleUser,
+    secretKey,
+    user: _get(req, 'request.user'),
+  }}
 });
 
 const authMiddleware = (req, res, next) => passport.authenticate('jwt', { session: false }, (err, user, info) => {
-  if (user) {
-    req.user = user;
-  }
-  next()
-})(req, res, next);
-
-server.express.use(authMiddleware);
+  if(user) req.user = user;
+  next();
+})(req,res,next);
+server.express.post('*', authMiddleware);
 
 const port = 3500;
 

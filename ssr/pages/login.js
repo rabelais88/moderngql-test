@@ -1,15 +1,8 @@
 import React from "react";
 import gql from "graphql-tag";
 import { useQuery } from "react-apollo-hooks";
-
-const GET_USERS = gql`
-  query {
-    users {
-      id
-      name
-    }
-  }
-`;
+import { Cookies } from 'react-cookie';
+const cookies = new Cookies();
 
 const LOGIN = gql`
   query {
@@ -18,22 +11,19 @@ const LOGIN = gql`
 `;
 
 
-export default function Apollo() {
-  const { loading, data } = useQuery(GET_USERS);
-  const login = useQuery(LOGIN);
-  
+const pageLogin = () => {
+  const res = useQuery(LOGIN);
+  if (res.data.login) {
+    console.log('token has been set', res.data.login);
+    cookies.set('token', res.data.login);
+  }
   return (
     <div>
-      {!loading && (
-        <ul>
-          {data.users.map((u => {
-            return <li key={u.id}>{u.name}</li>;
-          }))}
-        </ul>
-      )}
-      {!login.loading && (
-        <p>{JSON.stringify(login.data)}</p>
+      {!res.loading && (
+        <p>{JSON.stringify(res.data)}</p>
       )}
     </div>
   )
 }
+
+export default pageLogin;

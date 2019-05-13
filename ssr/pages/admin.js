@@ -4,18 +4,20 @@ import { useQuery } from "react-apollo-hooks";
 
 const CHECK_LOGIN = gql`
   query {
-    login
+    isLoggedIn
   }
 `;
 
-export default function Apollo() {
+const pageAdmin = () => {
   const isLoggedIn = useQuery(CHECK_LOGIN);
   
   return (
     <div>
       {!isLoggedIn.loading && (
-        <p>{JSON.stringify(login.data)}</p>
+        <p>{JSON.stringify(isLoggedIn.data)}</p>
       )}
     </div>
   )
 }
+
+export default pageAdmin;

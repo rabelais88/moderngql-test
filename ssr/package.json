@@ -5,13 +5,17 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.4",
     "apollo-boost": "^0.3.1",
+    "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "graphql": "^14.3.0",
     "graphql-tag": "^2.10.1",
     "isomorphic-unfetch": "^3.0.0",
+    "lodash": "^4.17.11",
     "next": "^8.1.0",
+    "next-apollo": "^2.1.0",
     "react": "^16.8.6",
     "react-apollo-hooks": "^0.4.5",
+    "react-cookie": "^4.0.0",
     "react-dom": "^16.8.6"
   },
   "scripts": {

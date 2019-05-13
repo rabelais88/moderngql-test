@@ -51,7 +51,8 @@ export default {
   login(parent, args, { jwt, sampleUser, secretKey }, info) {
     return jwt.sign(sampleUser, secretKey, { expiresIn: 60 }); // 1 minutes
   },
-  isLoggedIn(parent, args, { user }, info) {
+  isLoggedIn(parent, args, {user}, info) {
+    console.log(user);
     return user !== undefined && user !== null;
   },
 }

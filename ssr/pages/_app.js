@@ -1,6 +1,6 @@
 import React from "react";
 import App, { Container } from "next/app";
-import withApolloClient from "../src/lib/withApolloClient";
+import withApolloClient from "../lib/withApolloClient";
 import { ApolloClient } from "apollo-boost";
 import { ApolloProvider } from "react-apollo-hooks";
 
