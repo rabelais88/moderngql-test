@@ -1,5 +1,6 @@
 import { useQuery } from 'graphql-hooks';
 import { Cookies } from 'react-cookie';
+import CheckLogin from '../components/CheckLogin';
 
 const queryAdmin = `
 query {
@@ -11,7 +12,7 @@ const PageAdmin = props => {
   const { loading, error, data, refetch } = useQuery(queryAdmin);
   if (error) return <div>error...</div>
   if (!data) return <div>loading...</div>
-  return <div>{JSON.stringify(data)}</div>
+  return <div>{JSON.stringify(data)}{<CheckLogin />}</div>
 };
 
 export default PageAdmin;
